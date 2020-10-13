@@ -34,7 +34,6 @@ $(document).ready(function () {
 
             //Insert relevant data from API to targeted elements by ID
             $("#city-name").text(response.name + " (" + date + ") ");
-            console.log(response.weather[0].icon);
             var icon = response.weather[0].icon;
             //Append weather icon (from API) to city name element
             $("#weather-icon").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
@@ -45,19 +44,17 @@ $(document).ready(function () {
             $("#wind-speed").text(response.wind.speed);
             var cityLat = response.coord.lat;
             var cityLon = response.coord.lon;
-            //Add button with city name to store query below search input field
 
-            var cityButtonEl = $("<button>");
-            cityButtonEl.text(city);
-            cityButtonEl.attr("id", "button" + b);
-            b = b + 1;
-            cityButtonEl.attr("class", "btn-light btn-lg btn-block");
-            $("#searchCol").append(cityButtonEl);
-            
+            $("#button" + city).on("click", function () {
+                console.log("you clicked me!");
+                localStorage.getItem("cityName" + city);
+                currentWeather(city);
+                console.log(cityName0);
+            })
 
             //Get UV index from UV Index API
             var queryUVindex = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
-           
+
             $.ajax({
                 url: queryUVindex,
                 method: "GET"
@@ -71,9 +68,9 @@ $(document).ready(function () {
                 $("#UV-index").append(UVEl);
 
                 //apply coloring to UV index depending on favorable, moderate, or severe value
-                if (UVindex >= 4 && UVindex <= 8) {
+                if (UVindex >= 3 && UVindex <= 6) {
                     UVEl.attr("class", "btn-warning");
-                } else if (UVindex >> 8) {
+                } else if (UVindex > 6) {
                     UVEl.attr("class", "btn-danger");
                 }
 
@@ -97,7 +94,7 @@ $(document).ready(function () {
                 cardEl = $("<div>");
                 cardEl.attr("class", "card small card-body");
                 colEl.append(cardEl);
-                dateEl = $("<h4>");
+                dateEl = $("<h5>");
                 var date = responseFiveDay.list[a].dt_txt.slice(0, -9)
                 dateEl.text(date);
                 cardEl.append(dateEl);
@@ -126,15 +123,19 @@ $(document).ready(function () {
     //Event listeners
     $("#searchBtn").on("click", function () {
         var city = $("#searchText").val();
-        // localStorage.setItem("cityName0", city);
+        //Add button with city name to store query below search input field
+        var cityButtonEl = $("<button>");
+        cityButtonEl.text(city);
+        cityButtonEl.attr("id", "button" + city);
+        b = b + 1;
+        cityButtonEl.attr("class", "btn-light btn-lg btn-block");
+        $("#searchCol").append(cityButtonEl);
+
+        console.log("you clicked the search button!");
+        localStorage.setItem("cityName" + city, city);
         currentWeather(city);
-        console.log(city);
     })
 
-    $("#button0").on("click", function () {
-        var city = $("#button0").val();
-        currentWeather(city);
-        console.log(city);
-    })
+
 
 })
