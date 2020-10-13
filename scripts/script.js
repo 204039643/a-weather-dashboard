@@ -46,17 +46,18 @@ $(document).ready(function () {
             var cityLat = response.coord.lat;
             var cityLon = response.coord.lon;
             //Add button with city name to store query below search input field
-            
+
             var cityButtonEl = $("<button>");
             cityButtonEl.text(city);
             cityButtonEl.attr("id", "button" + b);
             b = b + 1;
-            var cityClick = city;
             cityButtonEl.attr("class", "btn-light btn-lg btn-block");
             $("#searchCol").append(cityButtonEl);
+            
 
             //Get UV index from UV Index API
-            var queryUVindex = "http://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
+            var queryUVindex = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
+           
             $.ajax({
                 url: queryUVindex,
                 method: "GET"
@@ -80,7 +81,7 @@ $(document).ready(function () {
         });
 
         // Start 5 day forecast
-        var queryURLfiveday = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=ba38bb11b45233a9a2d3b321afc00ba8"
+        var queryURLfiveday = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=ba38bb11b45233a9a2d3b321afc00ba8"
         $.ajax({
             url: queryURLfiveday,
             method: "GET"
@@ -106,11 +107,11 @@ $(document).ready(function () {
                 iconEl.attr("width", 40);
                 iconEl.attr("height", 40);
                 cardEl.append(iconEl);
-                tempEl = $("<h4>");
+                tempEl = $("<h5>");
                 var temp = parseInt(((responseFiveDay.list[a].main.temp - 273.15) * 1.8) + 32);
                 tempEl.text("Temp.: " + temp + "deg. F");
                 cardEl.append(tempEl);
-                humidityEl = $("<h4>");
+                humidityEl = $("<h5>");
                 humidityEl.text("Humidity: " + responseFiveDay.list[a].main.humidity + "%");
                 cardEl.append(humidityEl);
                 a = a + 8;
@@ -124,14 +125,14 @@ $(document).ready(function () {
 
     //Event listeners
     $("#searchBtn").on("click", function () {
-       
         var city = $("#searchText").val();
+        // localStorage.setItem("cityName0", city);
         currentWeather(city);
         console.log(city);
     })
 
-    $("#button" + b).on("click", function () {
-        var city = cityClick;
+    $("#button0").on("click", function () {
+        var city = $("#button0").val();
         currentWeather(city);
         console.log(city);
     })
