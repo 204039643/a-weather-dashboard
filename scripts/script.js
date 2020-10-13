@@ -18,7 +18,7 @@ $(document).ready(function () {
     function currentWeather(city) {
 
         console.log(city);
-        var queryURLcurrent = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
+        var queryURLcurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
         //Get current city weather from Current Weather API
         $.ajax({
             url: queryURLcurrent,
