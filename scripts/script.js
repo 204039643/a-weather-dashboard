@@ -82,7 +82,7 @@ $(document).ready(function () {
         }).then(function (responseFiveDay) {
             console.log(responseFiveDay);
             $("#forecastRow").empty();
-            var a = 0;
+            var a = 1;
 
             //dynamically build small cards to display weather conditions for the next 5 days
             for (i = 0; i < 5; i++) {
