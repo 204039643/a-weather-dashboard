@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>A Weather Dashboard</title>
-    <meta name="description" content="">
+    <meta name="description" content="A weather dashboard that displays the current conditions as well as the 5 day forecast">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -22,22 +22,19 @@
             <div class="col-sm-3" id="searchCol">
                 <h4>Search for a city:</h4>
                 <input type="text" id="searchText">
-                <button type="button" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true" id="searchBtn"></span>
-                </button>
+                <button id="searchBtn" class="glyphicon glyphicon-search"></button>
             </div>
             <div class="col-sm-9">
                 <div class="card border-secondary mb-2">
                     <div class="card-body text-secondary" id="current-card">
                         <div class="d-inline-block">
-                        <h2 id="city-name" class="d-inline"></h2>
-                        <img id="weather-icon">
+                            <h2 id="city-name" class="d-inline"></h2>
+                            <img id="weather-icon">
                         </div>
                         <h3>Current temp.: <span id="temperature"></span> deg. F</h3>
                         <h3>Humidity: <span id="humidity"></span> %</h3>
                         <h3>Wind speed: <span id="wind-speed"></span> mph</h3>
                         <h3 id="UV-index">UV Index: </h3>
-                        
                     </div>
                 </div>
                 <div class="row" id="forecastRow">

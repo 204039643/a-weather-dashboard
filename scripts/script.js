@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     //DOM variables
     var UVEl = $("<button>");
     var colEl = $("<div>");
@@ -9,14 +10,12 @@ $(document).ready(function () {
     var dateEl = $("<h4>");
 
     //JS Variables
-    var city = "atlanta";
+    var city = "Atlanta";
     var today = new Date();
     var date = (today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
-    var b = 0
 
     //Function Definitions
     function currentWeather(city) {
-
         console.log(city);
         var queryURLcurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=ba38bb11b45233a9a2d3b321afc00ba8";
         //Get current city weather from Current Weather API
@@ -30,13 +29,13 @@ $(document).ready(function () {
             console.log(response.main.humidity);
             console.log(response.wind.speed);
 
-            //check for bad or unavailable city name
-
             //Insert relevant data from API to targeted elements by ID
             $("#city-name").text(response.name + " (" + date + ") ");
             var icon = response.weather[0].icon;
+
             //Append weather icon (from API) to city name element
-            $("#weather-icon").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+            $("#weather-icon").attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+            $("#weather-icon").attr("alt", "weather icon");
 
             //Convert temp from deg. Kelvin to deg. F and convert to integer while inserting text
             $("#temperature").text(parseInt(((response.main.temp) - 273.15) * 1.8) + 32);
@@ -46,10 +45,8 @@ $(document).ready(function () {
             var cityLon = response.coord.lon;
 
             $("#button" + city).on("click", function () {
-                console.log("you clicked me!");
                 localStorage.getItem("cityName" + city);
                 currentWeather(city);
-                console.log(cityName0);
             })
 
             //Get UV index from UV Index API
@@ -59,7 +56,7 @@ $(document).ready(function () {
                 url: queryUVindex,
                 method: "GET"
             }).then(function (responseUV) {
-                var UVindex = responseUV[0].value
+                var UVindex = responseUV[0].value;
                 console.log(UVindex);
                 UVEl.remove();
                 UVEl = $("<button>");
@@ -87,6 +84,7 @@ $(document).ready(function () {
             $("#forecastRow").empty();
             var a = 0;
 
+            //dynamically build small cards to display weather conditions for the next 5 days
             for (i = 0; i < 5; i++) {
                 colEl = $("<div>");
                 colEl.attr("class", "col-sm-2");
@@ -100,13 +98,13 @@ $(document).ready(function () {
                 cardEl.append(dateEl);
                 var icon = responseFiveDay.list[a].weather[0].icon;
                 iconEl = $("<img>");
-                iconEl.attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+                iconEl.attr("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
                 iconEl.attr("width", 40);
                 iconEl.attr("height", 40);
                 cardEl.append(iconEl);
                 tempEl = $("<h5>");
                 var temp = parseInt(((responseFiveDay.list[a].main.temp - 273.15) * 1.8) + 32);
-                tempEl.text("Temp.: " + temp + "deg. F");
+                tempEl.text("Temp.: " + temp + " deg. F");
                 cardEl.append(tempEl);
                 humidityEl = $("<h5>");
                 humidityEl.text("Humidity: " + responseFiveDay.list[a].main.humidity + "%");
@@ -117,25 +115,36 @@ $(document).ready(function () {
         })
     };
 
+    //Initialize page with last city from prior session
+    function getLastCity(city) {
+        city = localStorage.getItem("lastCity");
+        console.log(city);
+        currentWeather(city);
+    }
+
     //Function calls
-    currentWeather(city);
+    getLastCity(city);
 
     //Event listeners
     $("#searchBtn").on("click", function () {
         var city = $("#searchText").val();
-        //Add button with city name to store query below search input field
+        if (city === "") {
+            alert("Enter a city name!");
+            return;
+        }
+
+        //Add search history button with city name below search input field
         var cityButtonEl = $("<button>");
         cityButtonEl.text(city);
         cityButtonEl.attr("id", "button" + city);
-        b = b + 1;
         cityButtonEl.attr("class", "btn-light btn-lg btn-block");
         $("#searchCol").append(cityButtonEl);
-
-        console.log("you clicked the search button!");
         localStorage.setItem("cityName" + city, city);
+
+        //Store last city searched
+        localStorage.setItem("lastCity", city);
+
         currentWeather(city);
     })
-
-
 
 })
