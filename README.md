@@ -4,7 +4,7 @@ This is a weather dashboard that displays both the current weather and the 5 day
 
 URL of deployed app: https://204039643.github.io/a-weather-dashboard
 
-![screenshotofmywebpage](./Assets/weather-dashboard-screenshot.png)
+![screenshotofmywebpage](./assets/Weather-dashboard-screenshot.png)
 
 - [Installation](#installation)
 - [Usage](#usage)
